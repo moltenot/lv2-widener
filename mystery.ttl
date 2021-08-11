@@ -1,0 +1,28 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<http://www.mystery_plugin.co.nz/>
+    a lv2:Plugin;
+    doap:name "Theo's Mystery Plugin" ;
+
+    lv2:port [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 0 ;
+        lv2:symbol "tilt" ;
+        lv2:name "???" ;
+        lv2:default 0.0;
+        lv2:minimum 0.0;
+        lv2:maximum 1.0
+    ] , [
+        a lv2:AudioPort, lv2:InputPort;
+        lv2:index 1;
+        lv2:symbol "in";
+        lv2:name "Input"
+    ] , [
+        a lv2:AudioPort, lv2:OutputPort;
+        lv2:index 2;
+        lv2:symbol "out";
+        lv2:name "Output"
+    ] .
