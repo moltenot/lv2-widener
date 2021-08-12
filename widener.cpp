@@ -13,7 +13,7 @@
 #include <random>
 
 // have to make sure these are the same as in tilteq.ttl
-#define TILT_PORT_INDEX 0
+#define WIDTH_PORT_INDEX 0
 #define INPUT_PORT_INDEX 1
 #define OUTPUT_PORT_INDEX 2
 
@@ -65,7 +65,7 @@ protected:
      * @param length the length of the freq_bin array
      */
     void apply_random_phase_shift(fftwf_complex *freq_bins, uint32_t length) {
-        float tilt_value = *p(TILT_PORT_INDEX);
+        float tilt_value = *p(WIDTH_PORT_INDEX);
         desensitise_tilt(&tilt_value);
         
 

@@ -5,13 +5,13 @@
 
 <http://www.mystery_plugin.co.nz/>
     a lv2:Plugin;
-    doap:name "Theo's Mystery Plugin" ;
+    doap:name "Theo's Widener Plugin" ;
 
     lv2:port [
         a lv2:InputPort, lv2:ControlPort ;
         lv2:index 0 ;
-        lv2:symbol "tilt" ;
-        lv2:name "???" ;
+        lv2:symbol "width" ;
+        lv2:name "Width" ;
         lv2:default 0.0;
         lv2:minimum 0.0;
         lv2:maximum 1.0
