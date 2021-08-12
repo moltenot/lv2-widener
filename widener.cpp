@@ -55,8 +55,6 @@ protected:
      */
     void desensitise_tilt(float *tilt) 
     {
-        std::cout << "called desensitised tilt " << std::endl;
-        
         *tilt = pow(*tilt, 8);
     }
 
