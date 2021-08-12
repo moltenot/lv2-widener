@@ -7,6 +7,7 @@ To install type
 ```
 make install
 ```
+Which will compile the cpp file, and bundle everything into `~/.lv2/widener.lv2`
 
 
 ## How it works
