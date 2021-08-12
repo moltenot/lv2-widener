@@ -3,5 +3,5 @@
 
 <http://www.mystery_plugin.co.nz/>
         a lv2:Plugin ;
-        lv2:binary <oooo.so>  ;
-        rdfs:seeAlso <mystery.ttl> .
+        lv2:binary <widener.so>  ;
+        rdfs:seeAlso <widener.ttl> .

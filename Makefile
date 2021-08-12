@@ -1,18 +1,18 @@
-BUNDLENAME=mystery_plugin.lv2
+BUNDLENAME=widener.lv2
 INSTALLDIR=~/.lv2/
 
 .PHONY: install bundle clean uninstall reinstall test ffttest
 
-oooo.so:
-	g++ -o oooo.so  -shared -fPIC -DPIC oooo.cpp `pkg-config --cflags --libs lv2-plugin fftw3 fftw3f`
+widener.so:
+	g++ -o widener.so  -shared -fPIC -DPIC widener.cpp `pkg-config --cflags --libs lv2-plugin fftw3 fftw3f`
 
 clean:
-	rm oooo.so
+	rm widener.so
 
-bundle: oooo.so
+bundle: widener.so
 	mkdir -p 	$(BUNDLENAME)
-	mv oooo.so  $(BUNDLENAME)
-	cp manifest.ttl mystery.ttl $(BUNDLENAME)
+	mv widener.so  $(BUNDLENAME)
+	cp manifest.ttl widener.ttl $(BUNDLENAME)
 
 install: bundle
 	mv $(BUNDLENAME) $(INSTALLDIR)
