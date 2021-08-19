@@ -11,6 +11,7 @@
 #include <complex>
 #include <fftw3.h>
 #include <random>
+#include "functions.h"
 
 // have to make sure these are the same as in tilteq.ttl
 #define WIDTH_PORT_INDEX 0
@@ -27,6 +28,8 @@ class TiltEQ : public Plugin<TiltEQ>
 protected:
     bool has_printed = false;
     std::default_random_engine generator;
+    uint32_t sample_num = 0; // represents the number of samples we are getting given at the moment
+    double *rand_array; // array of random doubles which will be created to be of length sample_num
 
     /**
      * returns a complex number that when multiplied by another complex number rotates
@@ -209,6 +212,10 @@ public:
      */
     void run(uint32_t sample_count)
     {
+        if(sample_count != TiltEQ::sample_num) {
+            sample_num = sample_count;
+            rand_array = recompute_random_nums(sample_count);
+        }
 
         fftwf_complex *freq_bins = fft_forward(p(INPUT_PORT_INDEX), sample_count);
 

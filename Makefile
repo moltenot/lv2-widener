@@ -24,3 +24,12 @@ reinstall: uninstall install
 
 test:
 	jalv http://www.mystery_plugin.co.nz/
+
+testfunc: compiletest
+	./test.o
+
+compiletest: func.o
+	g++ -o test.o test.cpp funcs.o
+
+func.o:
+	g++ -o funcs.o -c functions.cpp
