@@ -29,8 +29,11 @@ protected:
     bool has_printed = false;
     std::default_random_engine generator;
     uint32_t sample_num = 0; // represents the number of samples we are getting given at the moment
-    double *rand_array; // array of random doubles which will be created to be of length sample_num
+    double *rand_array;      // array of random doubles which will be created to be of length sample_num
+    uint32_t factor = 20;    // how slow the phase gets changed
+    uint cursor;
 
+<<<<<<< HEAD
     /**
      * returns a complex number that when multiplied by another complex number rotates
      * it some amount relative to the tilt_value given
@@ -73,8 +76,8 @@ protected:
         
 
         for(uint32_t i = 0; i < length; i++) {
-            std::complex<double> z = get_random_angle_shift(tilt_value);
-            std::complex<double> y;
+            std::complex<double> z = get_random_angle_shift(tilt_value); // complex number with mod 1 and arg theta
+            std::complex<double> y; // complex number to be assigned the value of the frequency bin
 
             double real_part = freq_bins[i][0];
             double im_part = freq_bins[i][1];
@@ -89,6 +92,8 @@ protected:
             freq_bins[i][1] = (float) result.imag();
         }
     }
+=======
+>>>>>>> bf77d9e (removed old methods)
 
     /**
      * prints the numbers in a float array in 6 columns
@@ -205,6 +210,11 @@ public:
         printf("created tilteq with rate %f\n", rate);
     }
 
+    void activate()
+    {
+        cursor = 0;
+    }
+
     /**
      * runs the plugin on a chunk of data. currently it computes the forward fft,
      * then reverts it back to the time domain without doing anything, and writes
@@ -212,14 +222,18 @@ public:
      */
     void run(uint32_t sample_count)
     {
-        if(sample_count != TiltEQ::sample_num) {
+        if (sample_count != TiltEQ::sample_num)
+        {
             sample_num = sample_count;
-            rand_array = recompute_random_nums(sample_count);
+            rand_array = get_random_array(sample_count);
+            rand_array = interpolate_array(rand_array, sample_count, factor);
         }
 
         fftwf_complex *freq_bins = fft_forward(p(INPUT_PORT_INDEX), sample_count);
 
-        apply_random_phase_shift(freq_bins, sample_count);
+        apply_phase_shift(freq_bins, sample_count, rand_array, factor, cursor);
+        cursor++;
+        cursor = cursor % sample_count;
         normalize_amplitude(freq_bins, sample_count);
 
         float *processed_signal = fft_backward(freq_bins, sample_count);
