@@ -3,8 +3,8 @@ INSTALLDIR=~/.lv2/
 
 .PHONY: install bundle clean uninstall reinstall test ffttest
 
-widener.so:
-	g++ -o widener.so  -shared -fPIC -DPIC widener.cpp `pkg-config --cflags --libs lv2-plugin fftw3 fftw3f`
+widener.so: funcs.o
+	g++ -o widener.so  -shared -fPIC -DPIC widener.cpp funcs.o `pkg-config --cflags --libs lv2-plugin fftw3 fftw3f`
 
 clean:
 	rm widener.so
@@ -28,8 +28,8 @@ test:
 testfunc: compiletest
 	./test.o
 
-compiletest: func.o
+compiletest: funcs.o
 	g++ -o test.o test.cpp funcs.o `pkg-config --cflags --libs fftw3 fftw3f`
 
-func.o:
-	g++ -o funcs.o -c functions.cpp `pkg-config --cflags --libs fftw3 fftw3f`
+funcs.o:
+	g++ -o funcs.o -c functions.cpp -fPIC `pkg-config --cflags --libs fftw3 fftw3f`
