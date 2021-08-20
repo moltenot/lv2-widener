@@ -3,8 +3,11 @@
  */
 #include "functions.h"
 #include <iostream>
+#include <complex>
 
 std::default_random_engine generator;
+
+#define PI 3.14159265358979323846264338327950
 
 /**
  * returns a random array of length n of double in the range (0,1)
@@ -60,5 +63,61 @@ double *interpolate_array(double *data, uint32_t n, uint32_t factor)
         double ans = (prev_entry * min_rot + next_entry * rot) / factor;
         output[i] = ans;
     }
+    return output;
+}
+
+std::complex<double> convert_to_std_form(fftwf_complex num)
+{
+    double im_part = num[1];
+    double re_part = num[0];
+    using namespace std::complex_literals;
+    {
+        std::complex<double> y = re_part + im_part * 1i;
+        return y;
+    } // namespace std::complex_literals
+}
+
+/**
+ * Applies phase shift to the frequency bins based on the random array of length
+ * n passed in.
+ * 
+ * cursor
+ *  |
+ *  v
+ *  |   |   |   |   |   |   |   |   |   |   |   |    <- bins
+ * ||||||||||||||||||||||||||||||||||||||||||||||||| <- rand_array
+ * 
+ * @param bins the frequency bins
+ * @param n the length of the bins array
+ * @param rand_array a random array of length n*factor
+ * @param factor how much longer the random array is than the bins
+ * @param cursor an int in the range (0, (factor*n)-1) that indicates where in the cycle we are
+ * 
+ * @return bins with rotation applied
+ */
+fftwf_complex *apply_phase_shift(fftwf_complex *bins, uint32_t n, double *rand_array, uint32_t factor, uint32_t cursor)
+{
+    fftwf_complex *output = fftwf_alloc_complex(sizeof(fftwf_complex) * n);
+
+    for (size_t i = 0; i < n; i++)
+    {
+        using namespace std;
+        {
+            complex<double> y = convert_to_std_form(bins[i]);
+            uint rand_arr_index = (i * factor + cursor) % (n * factor);
+            double angle = (rand_array[rand_arr_index] - 0.5) * 2 * PI; // convert (0, 1) -> (-pi, pi)
+
+            complex<double> result;
+            using namespace std::complex_literals;
+            {
+                result = y * std::exp(1i * angle);
+            } // namespace complex_literals;
+
+            output[i][0] = result.real();
+            output[i][1] = result.imag();
+
+        } // namespace std
+    }
+
     return output;
 }

@@ -29,7 +29,7 @@ testfunc: compiletest
 	./test.o
 
 compiletest: func.o
-	g++ -o test.o test.cpp funcs.o
+	g++ -o test.o test.cpp funcs.o `pkg-config --cflags --libs fftw3 fftw3f`
 
 func.o:
-	g++ -o funcs.o -c functions.cpp
+	g++ -o funcs.o -c functions.cpp `pkg-config --cflags --libs fftw3 fftw3f`
