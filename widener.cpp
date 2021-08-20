@@ -33,67 +33,6 @@ protected:
     uint32_t factor = 20;    // how slow the phase gets changed
     uint cursor;
 
-<<<<<<< HEAD
-    /**
-     * returns a complex number that when multiplied by another complex number rotates
-     * it some amount relative to the tilt_value given
-     */
-    std::complex<double> get_random_angle_shift(float tilt_value) {
-        std::uniform_real_distribution<double> distribution(-tilt_value, tilt_value);
-        double random_number = distribution(generator);
-
-        // turn the random number on the range [-TILT , TILT] control into something on range [-pi , pi]
-        double angle = random_number * PI;
-
-        std::complex<double> z;
-        using namespace std::complex_literals;
-        {
-            z = std::exp(angle*1i);
-        } // namespace std::complex_literals
-        return z;
-    }
-
-    /**
-     * Make the control less linear so there is more articulation 0.0
-     * and less around 1. Do this by squaring
-     * 
-     * @param tilt the control before modification
-     */
-    void desensitise_tilt(float *tilt) 
-    {
-        *tilt = pow(*tilt, 8);
-    }
-
-    /**
-     * apply a random phase shift to the frequency bins
-     * 
-     * @param freq_bins the bins output from the forward fft
-     * @param length the length of the freq_bin array
-     */
-    void apply_random_phase_shift(fftwf_complex *freq_bins, uint32_t length) {
-        float tilt_value = *p(WIDTH_PORT_INDEX);
-        desensitise_tilt(&tilt_value);
-        
-
-        for(uint32_t i = 0; i < length; i++) {
-            std::complex<double> z = get_random_angle_shift(tilt_value); // complex number with mod 1 and arg theta
-            std::complex<double> y; // complex number to be assigned the value of the frequency bin
-
-            double real_part = freq_bins[i][0];
-            double im_part = freq_bins[i][1];
-            using namespace std::complex_literals;
-            {
-                y = real_part + im_part*1i;
-            } // namespace std::complex_literals
-
-            // compute the angle change and put it back
-            std::complex<double> result = z*y;
-            freq_bins[i][0] = (float) result.real();
-            freq_bins[i][1] = (float) result.imag();
-        }
-    }
-=======
->>>>>>> bf77d9e (removed old methods)
 
     /**
      * prints the numbers in a float array in 6 columns
