@@ -22,7 +22,7 @@
 
 using namespace LV2;
 
-class TiltEQ : public Plugin<TiltEQ>
+class Widener : public Plugin<Widener>
 {
 
 protected:
@@ -143,8 +143,8 @@ protected:
     }
 
 public:
-    TiltEQ(double rate)
-        : Plugin<TiltEQ>(3) // since there are 3 ports in this plugin
+    Widener(double rate)
+        : Plugin<Widener>(3) // since there are 3 ports in this plugin
     {
         printf("created tilteq with rate %f\n", rate);
     }
@@ -161,7 +161,7 @@ public:
      */
     void run(uint32_t sample_count)
     {
-        if (sample_count != TiltEQ::sample_num)
+        if (sample_count != Widener::sample_num)
         {
             sample_num = sample_count;
             rand_array = get_random_array(sample_count);
@@ -189,4 +189,4 @@ public:
     }
 };
 
-unsigned _ = TiltEQ::register_class("http://www.mystery_plugin.co.nz/");
+unsigned _ = Widener::register_class("http://www.mystery_plugin.co.nz/");
