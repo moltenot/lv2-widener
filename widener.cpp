@@ -11,7 +11,7 @@
 #include <complex>
 #include <fftw3.h>
 #include <random>
-#include "functions.h"
+#include "functions.hpp"
 
 // have to make sure these are the same as in tilteq.ttl
 #define WIDTH_PORT_INDEX 0

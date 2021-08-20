@@ -1,7 +1,7 @@
 /** Upstream function for the widener so I can test the
  * functions it uses
  */
-#include "functions.h"
+#include "functions.hpp"
 #include <iostream>
 #include <complex>
 

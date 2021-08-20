@@ -2,7 +2,7 @@
  * File to test function.cpp methods
  */
 #include <iostream>
-#include "functions.h"
+#include "functions.hpp"
 #include <fftw3.h>
 
 double *rand_array;
