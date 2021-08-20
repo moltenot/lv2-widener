@@ -100,8 +100,10 @@ fftwf_complex *apply_phase_shift(fftwf_complex *bins, uint32_t n, double *rand_a
 {
     fftwf_complex *output = fftwf_alloc_complex(sizeof(fftwf_complex) * n);
 
-    for (size_t i = 1; i < n/2; i++)
+    for (size_t i = 0; i < n; i++)
     {
+        if (1 <= i && i <= n/2)
+        {
         using namespace std;
         {
             complex<double> y = convert_to_std_form(bins[i]);
@@ -118,7 +120,15 @@ fftwf_complex *apply_phase_shift(fftwf_complex *bins, uint32_t n, double *rand_a
             output[i][1] = result.imag();
 
         } // namespace std
-    }
+        }
+        else
+        {
+            output[i][0] = bins[i][0];
+            output[i][1] = bins[i][1];
+        }
+    
+        }
+        
 
     return output;
 }
