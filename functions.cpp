@@ -7,15 +7,15 @@
 std::default_random_engine generator;
 
 /**
- * maintains the datafield list of random numbers of length sample_num
+ * returns a random array of length n of double in the range (0,1)
  */
-double *recompute_random_nums(int sample_num)
+double *get_random_array(int n)
 {
-    double *rand_array = new double[sample_num];
+    double *rand_array = new double[n];
 
     // populate the array
     std::uniform_real_distribution<double> distribution(0.0, 1.0);
-    for (uint32_t i = 0; i < sample_num; i++)
+    for (uint32_t i = 0; i < n; i++)
     {
         rand_array[i] = distribution(generator);
     }
