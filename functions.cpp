@@ -92,10 +92,11 @@ std::complex<double> convert_to_std_form(fftwf_complex num)
  * @param rand_array a random array of length n*factor
  * @param factor how much longer the random array is than the bins
  * @param cursor an int in the range (0, (factor*n)-1) that indicates where in the cycle we are
+ * @param width number in range (0, 1) of how much to change the phase of the signal
  * 
  * @return bins with rotation applied
  */
-fftwf_complex *apply_phase_shift(fftwf_complex *bins, uint32_t n, double *rand_array, uint32_t factor, uint32_t cursor)
+fftwf_complex *apply_phase_shift(fftwf_complex *bins, uint32_t n, double *rand_array, uint32_t factor, uint32_t cursor, float width)
 {
     fftwf_complex *output = fftwf_alloc_complex(sizeof(fftwf_complex) * n);
 
@@ -105,7 +106,7 @@ fftwf_complex *apply_phase_shift(fftwf_complex *bins, uint32_t n, double *rand_a
         {
             complex<double> y = convert_to_std_form(bins[i]);
             uint rand_arr_index = (i * factor + cursor) % (n * factor);
-            double angle = (rand_array[rand_arr_index] - 0.5) * 2 * PI; // convert (0, 1) -> (-pi, pi)
+            double angle = width * (rand_array[rand_arr_index] - 0.5) * 2 * PI; // convert (0, 1) -> (-pi, pi)
 
             complex<double> result;
             using namespace std::complex_literals;
