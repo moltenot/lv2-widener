@@ -100,7 +100,7 @@ fftwf_complex *apply_phase_shift(fftwf_complex *bins, uint32_t n, double *rand_a
 {
     fftwf_complex *output = fftwf_alloc_complex(sizeof(fftwf_complex) * n);
 
-    for (size_t i = 0; i < n; i++)
+    for (size_t i = 1; i < n/2; i++)
     {
         using namespace std;
         {
