@@ -170,9 +170,11 @@ public:
 
         fftwf_complex *freq_bins = fft_forward(p(INPUT_PORT_INDEX), sample_count);
 
-        apply_phase_shift(freq_bins, sample_count, rand_array, factor, cursor);
+        float width = *p(WIDTH_PORT_INDEX);
+        freq_bins = apply_phase_shift(freq_bins, sample_count, rand_array, factor, cursor, width);
         cursor++;
         cursor = cursor % sample_count;
+        
         normalize_amplitude(freq_bins, sample_count);
 
         float *processed_signal = fft_backward(freq_bins, sample_count);
