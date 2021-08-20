@@ -7,7 +7,7 @@ widener.so: funcs.o
 	g++ -o widener.so  -shared -fPIC -DPIC widener.cpp funcs.o `pkg-config --cflags --libs lv2-plugin fftw3 fftw3f`
 
 clean:
-	rm widener.so
+	rm widener.so funcs.o
 
 bundle: widener.so
 	mkdir -p 	$(BUNDLENAME)
